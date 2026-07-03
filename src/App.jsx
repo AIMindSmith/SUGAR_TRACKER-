@@ -120,19 +120,41 @@
 // }
 
 // export default App
+
+
+import "./App.css";
+import { useState } from "react";
+import SearchBar from "./components/SearchBar";
+import ResultCard from "./components/ResultCard";
+
 function App() {
+  const [query, setQuery] = useState("");
+
   return (
     <div className="app">
-      <header>
-        <h1>Sugar Tracker</h1>
-        <p>Scan or search packaged Indian snacks to see sugar content in teaspoons, not just grams.</p>
+      <header className="app-header">
+        <h1>🍬 Sugar Tracker</h1>
+        <p>Find out how many teaspoons of sugar are in your snack</p>
       </header>
 
-      <main>
-        <p>🚧 Coming soon: search, barcode scanning, and a daily sugar log.</p>
+      <main className="app-main">
+        <SearchBar value={query} onChange={setQuery} />
+
+        {query && (
+          <p className="search-hint">
+            Searching for: <strong>{query}</strong>
+          </p>
+        )}
+
+        {/* ResultCard will render here from Day 5 onwards */}
+        <div className="results-area">
+          <p className="placeholder-text">
+            🔍 Type a product name above to get started
+          </p>
+        </div>
       </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
