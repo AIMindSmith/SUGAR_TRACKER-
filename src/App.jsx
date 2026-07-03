@@ -126,9 +126,14 @@ import "./App.css";
 import { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import ResultCard from "./components/ResultCard";
+import products from "./data/products.json";
 
 function App() {
   const [query, setQuery] = useState("");
+
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(query.toLowerCase())
+  );
 
   return (
     <div className="app">
@@ -146,11 +151,16 @@ function App() {
           </p>
         )}
 
-        {/* ResultCard will render here from Day 5 onwards */}
         <div className="results-area">
-          <p className="placeholder-text">
-            🔍 Type a product name above to get started
-          </p>
+          {query && filteredProducts.length > 0 ? (
+            filteredProducts.map(product => (
+              <ResultCard key={product.id} product={product} />
+            ))
+          ) : query ? (
+            <p className="placeholder-text">❌ No products found</p>
+          ) : (
+            <p className="placeholder-text">🔍 Type a product name above to get started</p>
+          )}
         </div>
       </main>
     </div>
