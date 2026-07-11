@@ -132,7 +132,9 @@ function App() {
   const [query, setQuery] = useState("");
 
   const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(query.toLowerCase())
+    product.name.toLowerCase().includes(query.toLowerCase()) ||
+    product.brand.toLowerCase().includes(query.toLowerCase()) ||
+    product.category.toLowerCase().includes(query.toLowerCase())
   );
 
   return (

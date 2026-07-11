@@ -28,16 +28,3 @@ export const WHO_DAILY_LIMIT_TEASPOONS = 6;
 export function percentOfDailyLimit(teaspoons) {
   return Math.round((teaspoons / WHO_DAILY_LIMIT_TEASPOONS) * 100);
 }
-
-
-// Should return 2.9
-gramsToTeaspoons(12)
-
-// Should return 0.0
-gramsToTeaspoons(0)
-
-// Should return { level: "Very High", color: "#991b1b" }
-getSugarLevel(8)
-
-// Should return 50
-percentOfDailyLimit(3)
