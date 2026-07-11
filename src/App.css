@@ -294,3 +294,120 @@ input, button {
   color: #16a34a;
   font-size: 0.8rem;
 }
+
+
+.search-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.search-row .search-bar {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.scan-btn {
+  background: #16a34a;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.scan-btn:active {
+  background: #15803d;
+}
+
+.scanner-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.scanner-box {
+  background: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 420px;
+  overflow: hidden;
+}
+
+.scanner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.scanner-header h3 {
+  font-size: 1rem;
+  color: #111827;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 4px 8px;
+}
+
+.scan-hint {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #6b7280;
+  padding: 12px 16px;
+}
+
+.scanner-error {
+  padding: 24px 16px;
+  text-align: center;
+  color: #ef4444;
+}
+
+.scanner-error button {
+  margin-top: 12px;
+  background: #16a34a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.scan-error-box {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  text-align: center;
+  color: #dc2626;
+}
+
+.scan-error-box button {
+  margin-top: 8px;
+  background: #16a34a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.api-badge {
+  color: #16a34a;
+  font-size: 0.8rem;
+}
