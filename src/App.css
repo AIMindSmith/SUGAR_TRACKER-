@@ -289,3 +289,8 @@ body {
 input, button {
   font-size: 16px; /* prevents iOS auto-zoom on input focus */
 }
+
+.api-badge {
+  color: #16a34a;
+  font-size: 0.8rem;
+}

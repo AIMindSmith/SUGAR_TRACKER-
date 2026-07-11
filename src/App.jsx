@@ -121,21 +121,54 @@
 
 // export default App
 
-
+import { useState, useEffect } from "react";
 import "./App.css";
-import { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import ResultCard from "./components/ResultCard";
 import products from "./data/products.json";
+import { searchOpenFoodFacts } from "./utils/openFoodFacts";
 
 function App() {
   const [query, setQuery] = useState("");
+  const [apiResults, setApiResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState(false);
 
-  const filteredProducts = products.filter(product =>
+  // Local filter runs instantly on every keystroke
+  const localResults = products.filter(product =>
     product.name.toLowerCase().includes(query.toLowerCase()) ||
     product.brand.toLowerCase().includes(query.toLowerCase()) ||
     product.category.toLowerCase().includes(query.toLowerCase())
   );
+
+  // API fallback: only fires when local results are empty
+  // Debounced 600ms so it doesn't fire on every keystroke
+  useEffect(() => {
+    // Reset API state when query changes
+    setApiResults([]);
+    setApiError(false);
+
+    // Don't call API if query is short or local results exist
+    if (query.length < 3 || localResults.length > 0) return;
+
+    const timer = setTimeout(async () => {
+      setLoading(true);
+      try {
+        const results = await searchOpenFoodFacts(query);
+        setApiResults(results);
+      } catch (err) {
+        setApiError(true);
+      } finally {
+        setLoading(false);
+      }
+    }, 600);
+
+    // Cleanup: cancel timer if user keeps typing
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  // Combine: local first, API as fallback
+  const allResults = localResults.length > 0 ? localResults : apiResults;
 
   return (
     <div className="app">
@@ -150,18 +183,31 @@ function App() {
         {query && (
           <p className="search-hint">
             Searching for: <strong>{query}</strong>
+            {localResults.length === 0 && apiResults.length > 0 && (
+              <span className="api-badge"> · via Open Food Facts</span>
+            )}
           </p>
         )}
 
         <div className="results-area">
-          {query && filteredProducts.length > 0 ? (
-            filteredProducts.map(product => (
+          {loading ? (
+            <p className="placeholder-text">⏳ Searching online database...</p>
+          ) : query && allResults.length > 0 ? (
+            allResults.map(product => (
               <ResultCard key={product.id} product={product} />
             ))
-          ) : query ? (
+          ) : query && query.length >= 3 && !loading && apiError ? (
+            <p className="placeholder-text">
+              ⚠️ Couldn't reach online database. Check your connection.
+            </p>
+          ) : query && query.length >= 3 && !loading && allResults.length === 0 ? (
             <p className="placeholder-text">❌ No products found</p>
+          ) : query && query.length < 3 ? (
+            <p className="placeholder-text">💬 Keep typing to search...</p>
           ) : (
-            <p className="placeholder-text">🔍 Type a product name above to get started</p>
+            <p className="placeholder-text">
+              🔍 Type a product name above to get started
+            </p>
           )}
         </div>
       </main>
